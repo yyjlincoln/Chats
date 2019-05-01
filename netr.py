@@ -90,7 +90,10 @@ class MsgFetch(threading.Thread):
         global s
         while True:
             try:
+                print('MsgAwaits')
                 d=s.recv(204800).decode()
+                if d==b'':
+                    raise Exception('Cnrt')
                 if d=='heartbeat':
                     continue
                 jback=json.loads(d)
