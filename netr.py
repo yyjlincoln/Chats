@@ -15,6 +15,7 @@ xauth = ()
 msgrecv=print
 
 def sendmsg(msg):
+    global token
     c = {
         'timestamp': time.time(),
         'operation': 'msgsend',
@@ -22,8 +23,10 @@ def sendmsg(msg):
         'msg': msg
     }
     d=socket.socket()
-    d.connect(servaddr)
-
+    try:
+        d.connect(servaddr)
+    except:
+        return False
     try:
         d.send(json.dumps(c).encode())
     except:
@@ -40,6 +43,7 @@ def sendmsg(msg):
 
 def init(serv=('localhost', 8088), auth=('user', 'pass'),msghand=None):
     global servaddr, s, connectstat, xauth
+    s=socket.socket()
     if msghand:
         msgrecv=msghand
 
@@ -49,6 +53,7 @@ def init(serv=('localhost', 8088), auth=('user', 'pass'),msghand=None):
     except:
         s = socket.socket()
         return False
+    print(authorize(auth))
     if not authorize(auth):
         s = socket.socket()
         return False
@@ -63,14 +68,14 @@ def authorize(auth):
     global sign, token, authstat
     try:
         # [TODO]
+        print(auth)
         if auth[0] == 'user' and auth[1] == 'pass':
             token = '123456'
             sign = '654321'
             authstat = True
             return True
-    except:
         return False
-    finally:
+    except:
         return False
 
 
@@ -86,6 +91,8 @@ class MsgFetch(threading.Thread):
         while True:
             try:
                 d=s.recv(204800).decode()
+                if d=='heartbeat':
+                    continue
                 jback=json.loads(d)
                 if not 'msgtype' in jback:
                     print('Msgtype not found')

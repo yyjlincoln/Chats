@@ -49,7 +49,7 @@ class WebHostAccepted(threading.Thread):
         try:
             sx=self.sx
             addr=self.addr
-            d=sx.recv(2048)
+            d=sx.recv(204800000)
             p=parseAddr(d)
             if p:
                 ds=getData(p)
@@ -82,8 +82,8 @@ def parseAddr(r):
         r=r.split('\r\n')
         r=r[0].split(' ')[1]
         return r
-    except Exception as e:
-        print('Err',e)
+    except:
+        pass
 
 def getData(r):
     try:
@@ -108,8 +108,11 @@ def api(d):
             dd=d[5:].split('/')
             if len(dd)<4:
                 return jsond('Init field not completed', False, -5005)
-            if not netr.init((dd[0],dd[1]),(dd[2],dd[3])):
-                return jsond('Init failed, check your address and login.',False,-5006)
+            try:
+                if not netr.init((dd[0],int(dd[1])),(dd[2],dd[3])):
+                    return jsond('Init failed, check your address and login.',False,-5006)
+            except:
+                return jsond('Init server port should be int',False,-5999)
             return jsond('Init Success.')
         
         if d[:5]=='send/':
@@ -137,7 +140,7 @@ def api(d):
                 return jsond('Message send failed',False,-5006)
         return jsond('Invalid operation',False,-5000)
     except Exception as e:
-        return jsond('Unknown error occured, raw error information presented.\n'+e,False,-5999)
+        return jsond('Unknown error occured, raw error information presented.'+str(e),False,-5999)
 
 def jsond(message='success',success=True,code=0,**kw):
     c={
