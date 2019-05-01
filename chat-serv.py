@@ -12,5 +12,6 @@ while True:
         e=json.loads(d)
         print(e)
         sx.send(json.dumps({'success':True}).encode())
+        sx.close()
     except:
         continue

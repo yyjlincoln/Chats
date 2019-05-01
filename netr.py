@@ -42,7 +42,7 @@ def sendmsg(msg):
 
 
 def init(serv=('localhost', 8088), auth=('user', 'pass'),msghand=None):
-    global servaddr, s, connectstat, xauth
+    global servaddr, s, connectstat, xauth, msgrecv
     s=socket.socket()
     if msghand:
         msgrecv=msghand
