@@ -21,6 +21,11 @@ function login_operation() {
         if (tf) {
             processed=true
             $('#loading').html('<b>Login Successfully</b>')
+            $('#login.window').fadeOut()
+            setTimeout(() => {
+                top.location='main.html'                
+            }, 500);
+
         } else {
             processed=true
             $('#loading').html('<b>Login Failed, please check your password & remote server address and <a href="" onclick="top.location=top.location">try again</a>!</b>')

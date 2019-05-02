@@ -109,8 +109,9 @@ def api(d):
             if len(dd)<4:
                 return jsond('Init field not completed', False, -5005)
             try:
-                if not netr.init((dd[0],int(dd[1])),(dd[2],dd[3])):
-                    return jsond('Init failed, check your address and login.',False,-5006)
+                rst=netr.init((dd[0],int(dd[1])),(dd[2],dd[3]))
+                if rst <0:
+                    return jsond('Init failed',False,int(rst))
             except:
                 return jsond('Init server port should be int',False,-5999)
             return jsond('Init Success.')
@@ -134,10 +135,13 @@ def api(d):
                 return jsond('No msg is decleared; Json format error?',False,-5003)
 
             #Got Command
-            if netr.sendmsg(rj['msg']):
+            rst=netr.sendmsg(rj['msg'])>=0
+            if rst>=0:
                 return jsond('Message sent')
             else:
-                return jsond('Message send failed',False,-5006)
+                return jsond('Message send failed',False,int(rst))
+        if d[:9]=='initstat/':
+            return jsond('<Status>',netr.initok(),code=0)
         return jsond('Invalid operation',False,-5000)
     except Exception as e:
         return jsond('Unknown error occured, raw error information presented.'+str(e),False,-5999)

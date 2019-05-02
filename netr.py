@@ -14,8 +14,11 @@ connectstat = False
 xauth = ()
 msgrecv=print
 
+
 def sendmsg(msg):
     global token
+    if not initok():
+        return -5888
     c = {
         'timestamp': time.time(),
         'operation': 'msgsend',
@@ -26,20 +29,22 @@ def sendmsg(msg):
     try:
         d.connect(servaddr)
     except:
-        return False
+        return -5887
     try:
         d.send(json.dumps(c).encode())
     except:
-        return False
+        return -5886
     din = json.loads(d.recv(2048).decode())
     if 'success' in din:
         if din['success'] == True:
             return True
         else:
-            return False
+            return -1
     else:
-        return False
+        return -5999
 
+def initok():
+    return (connectstat&authstat)
 
 def init(serv=('localhost', 8088), auth=('user', 'pass'),msghand=None):
     global servaddr, s, connectstat, xauth, msgrecv
@@ -52,16 +57,16 @@ def init(serv=('localhost', 8088), auth=('user', 'pass'),msghand=None):
         s.connect(servaddr)
     except:
         s = socket.socket()
-        return False
+        return -5887
     print(authorize(auth))
     if not authorize(auth):
         s = socket.socket()
-        return False
+        return -1
     connectstat = True
     xauth = auth
     msgf = MsgFetch()
     msgf.start()
-    return True
+    return 0
 
 
 def authorize(auth):
