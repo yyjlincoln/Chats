@@ -27,7 +27,7 @@
                     <!-- Here's where msgcards are put. -->
                 </div>
             </div>
-            <form id="inputform" onsubmit="sendmsg(inputform.input.value,msgsent);return false;">
+            <form id="inputform" onsubmit="sendmsg(inputform.input.value,msgsent);inputform.input.value='';return false;">
                 <div id="input-area">
                     <textarea id="main-input" name="input"></textarea>
                     <div id="input-control"><button id="send" type="submit">Send</button></div>
