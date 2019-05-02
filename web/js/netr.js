@@ -36,8 +36,9 @@ function ajaxaskmsg(callback){
     $.get(localServURL+"/$api/getmsg",(data)=>{
         d=JSON.parse(data)
         if(d.success){
-            for(var e;e<d.msglist;e++){
-                callback(d.msglist[e])
+            console.log(d,d.message)
+            for(var e=0;e<d.message.length;e++){
+                callback(d.message[e])
             }
         } else {
             callback(-1)

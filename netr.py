@@ -23,7 +23,9 @@ def sendmsg(msg):
         'timestamp': time.time(),
         'operation': 'msgsend',
         'token': token,
-        'msg': msg
+        'msg': msg,
+        'nickname': getusername(),
+        'id': getusername(),
     }
     d=socket.socket()
     try:

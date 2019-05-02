@@ -9,6 +9,8 @@ import json
 import base64
 import netr
 
+msgUnread=[]
+
 # All Exceptions
 class HostingException(BaseException):
     def __init__(self,r,errcode):
@@ -65,7 +67,9 @@ class WebHostAccepted(threading.Thread):
             print(e)
             pass
 
-
+def msgrecv(nickname,id,message):
+    global msgUnread
+    msgUnread.append({'id':id,'nickname':nickname,'message':message})
 
 def main():
     # Host on Localhost
@@ -109,7 +113,7 @@ def api(d):
             if len(dd)<4:
                 return jsond('Init field not completed', False, -5005)
             try:
-                rst=netr.init((dd[0],int(dd[1])),(dd[2],dd[3]))
+                rst=netr.init((dd[0],int(dd[1])),(dd[2],dd[3]),msghand=msgrecv)
                 if rst <0:
                     return jsond('Init failed',False,int(rst))
             except:
@@ -147,6 +151,14 @@ def api(d):
                 return jsond(netr.getusername(),netr.initok(),code=0)
             except:
                 return jsond('<Uninitialized>',False,-5998)
+        if d=='getmsg':
+            c=[]
+            if len(msgUnread)!=0:
+                for x in range(len(msgUnread)):
+                    c.append(msgUnread[0]['nickname']+' says :'+msgUnread[0]['message'])
+                    msgUnread.pop(0)
+                return jsond(c,True,0)
+            return jsond(c,False,0)
         return jsond('Invalid operation',False,-5000)
     except Exception as e:
         return jsond('Unknown error occured, raw error information presented.'+str(e),False,-5999)
