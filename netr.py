@@ -98,7 +98,7 @@ class MsgFetch(threading.Thread):
                 print('MsgAwaits')
                 d=s.recv(204800).decode()
                 if d==b'':
-                    raise Exception('Cnrt')
+                    raise Exception('Connection Reset')
                 if d=='heartbeat':
                     continue
                 jback=json.loads(d)
@@ -114,6 +114,8 @@ class MsgFetch(threading.Thread):
             except:
                 netwreset()
                 return
+def getusername():
+    return xauth[0]
 
 def netwreset():
     global s, authstat, connectstat, token, sign

@@ -44,3 +44,21 @@ function ajaxaskmsg(callback){
         }
     })
 }
+
+function getusername(callback){
+    $.get(localServURL+"/$api/getusername",(data)=>{
+        d=JSON.parse(data)
+        if(d.success){
+            callback(d.message)
+        } else {
+            callback("<You are not logged in>")
+        }
+    })
+}
+
+function initok(callback){
+    $.get(localServURL+"/$api/initstat",(data)=>{
+        d=JSON.parse(data)
+        callback(d.success)
+    })
+}

@@ -140,8 +140,13 @@ def api(d):
                 return jsond('Message sent')
             else:
                 return jsond('Message send failed',False,int(rst))
-        if d[:9]=='initstat/':
+        if d=='initstat':
             return jsond('<Status>',netr.initok(),code=0)
+        if d=='getusername':
+            try:
+                return jsond(netr.getusername(),netr.initok(),code=0)
+            except:
+                return jsond('<Uninitialized>',False,-5998)
         return jsond('Invalid operation',False,-5000)
     except Exception as e:
         return jsond('Unknown error occured, raw error information presented.'+str(e),False,-5999)

@@ -1,11 +1,25 @@
-function activateW(windowName) {
-    $('#' + windowName + '.window').fadeIn()
-}
-function deactivateW(windowName) {
-    $('#' + windowName + '.window').fadeOut()
-}
+
 $(document).ready(() => {
     activateW('login')
+    initok((loggedin) => {
+        if (loggedin) {
+            $('#dtext2').fadeOut()
+            $('#loginform').fadeOut()
+            $('#dtext3').fadeOut()
+            processed = true
+            $('#loading').html('<b>Welcome back!</b>')
+            setTimeout(() => {
+                $('#loading').fadeIn()
+
+            }, 300)
+            setTimeout(() => {
+                $('#login.window').fadeOut()
+            }, 1000);
+            setTimeout(() => {
+                top.location = 'main.html'
+            }, 1500);
+        }
+    })
 })
 
 function login_operation() {
@@ -19,15 +33,17 @@ function login_operation() {
     // Loading
     init(loginform.username.value, loginform.password.value, (tf) => {
         if (tf) {
-            processed=true
+            processed = true
             $('#loading').html('<b>Login Successfully</b>')
-            $('#login.window').fadeOut()
             setTimeout(() => {
-                top.location='main.html'                
-            }, 500);
+                $('#login.window').fadeOut()
+            }, 1000);
+            setTimeout(() => {
+                top.location = 'main.html'
+            }, 1500);
 
         } else {
-            processed=true
+            processed = true
             $('#loading').html('<b>Login Failed, please check your password & remote server address and <a href="" onclick="top.location=top.location">try again</a>!</b>')
         }
     })
