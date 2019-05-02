@@ -54,11 +54,11 @@ class WebHostAccepted(threading.Thread):
             if p:
                 ds=getData(p)
                 if ds!=False:
-                    sx.send(b'HTTP/1.1 200 OK\r\n\r\n'+ds)
+                    sx.send(b'HTTP/1.1 200 OK\nAccess-Control-Allow-Origin: *\r\n\r\n'+ds)
                 else:
-                    sx.send(b'HTTP/1.1 404 Not Found\r\n\r\nNot Found.')
+                    sx.send(b'HTTP/1.1 404 Not Found\nAccess-Control-Allow-Origin: *\r\n\r\nNot Found.')
             else:
-                sx.send(b'HTTP/1.1 500 Bad Request\r\n\r\nBad HTTP Request.')
+                sx.send(b'HTTP/1.1 500 Bad Request\nAccess-Control-Allow-Origin: *\r\n\r\nBad HTTP Request.')
             sx.shutdown(socket.SHUT_RDWR)
             sx.close()
         except Exception as e:

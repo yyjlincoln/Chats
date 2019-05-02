@@ -1,0 +1,21 @@
+#dtext{
+    color: #031b4e;
+    font-weight: 500;
+    padding-bottom: 30px;
+}
+
+#dtext3{
+    display: block;
+
+    justify-content: center;
+}
+
+#loading{
+    padding-top: 50px;
+    display: none;
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+    /* opacity: 0; */
+}

@@ -16,9 +16,9 @@ body {
 
 #toptext {
     font-weight: 500;
-    padding-top: 30px;
+    padding-top: 50px;
     font-size: 300%;
-    padding-bottom: 30px;
+    padding-bottom: 5px;
     /* background-color: rgb(86, 159, 254); */
     height: 60px;
     width: 100%;
@@ -27,6 +27,7 @@ body {
     color: #031b4e;
     text-align: center;
 }
+
 
 #login {
     height: 400px;
@@ -54,7 +55,7 @@ body {
     margin-right: auto;
     text-align: center;
     /* justify-content: center; */
-    display: flex;
+    display: none;
     flex-direction: column;
     top: 100px;
     vertical-align: middle;

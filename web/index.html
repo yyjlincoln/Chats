@@ -1,21 +1,31 @@
 <html>
-    <head>
-        <script src="./js/jq.js"></script>
-        <script src="./js/index.js"></script>
-        <link rel="stylesheet" type="text/css" href="./css/index.css">
-        <link rel="stylesheet" type="text/css" href="./css/common.css">
 
-        <title>Welcome to Chats! - Login</title>
-    </head>
-    <body>
-        <div id="background-layer"></div>
-        <div id="login" class="window">
-            <div id="toptext" class="toptext">Welcome to Chats</div>
-            <form id="loginform">
-                <input id="username" name="username" class="xinput" type="text" placeholder="Email">
-                <input id="password" name="password" type="password" class="xinput" placeholder="Password">
-                <button id="submit" type="submit" class="xinput">Submit</button>
-            </form>
+<head>
+    <script src="./js/jq.js"></script>
+    <script src="./js/netr.js"></script>
+    <script src="./js/index.js"></script>
+    <link rel="stylesheet" type="text/css" href="./css/index.css">
+    <link rel="stylesheet" type="text/css" href="./css/common.css">
+
+    <title>Welcome to Chats! - Login</title>
+</head>
+
+<body>
+    <div id="background-layer"></div>
+    <div id="login" class="window">
+        <div id="toptext" class="toptext">Welcome to Chats</div>
+        <div id="dtext" class="toptext">The chatty world.</div>
+        <div id="dtext2" class="toptext">Already have an account? Log in below.</div>
+        <form id="loginform" onsubmit="return login_operation();">
+            <input id="username" name="username" class="xinput" type="text" placeholder="Email">
+            <input id="password" name="password" type="password" class="xinput" placeholder="Password">
+            <button id="submit" type="submit" class="xinput">Submit</button>
+        </form>
+        <div id="dtext3" class="toptext">... or you can register by clicking <a href="#reg"
+                onclick="alert('Register is not open. This is still a beta product.')">here</a>
         </div>
-    </body>
+        <div id="loading">Loading.</div>
+    </div>
+</body>
+
 </html>
