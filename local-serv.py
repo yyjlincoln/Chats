@@ -135,7 +135,7 @@ def api(d):
                 return jsond('No msg is decleared; Json format error?',False,-5003)
 
             #Got Command
-            rst=netr.sendmsg(rj['msg'])>=0
+            rst=netr.sendmsg(rj['msg'])
             if rst>=0:
                 return jsond('Message sent')
             else:

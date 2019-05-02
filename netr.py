@@ -126,7 +126,7 @@ def netwreset():
     token=''
     sign=''
     offline_reconnect()
-    if init(serv=servaddr,auth=xauth):
+    if init(serv=servaddr,auth=xauth)>=0:
         offline_reconnect_success()
     else:
         offline_reconnect_failed()

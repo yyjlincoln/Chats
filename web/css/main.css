@@ -82,6 +82,8 @@ body{
     /* background: white; */
     border-top: groove 1px;
     position: relative;
+    display: flex;
+    flex-direction: column;
     top: -80px;
 }
 .msgcardr{
@@ -103,4 +105,22 @@ body{
     text-align: right;
     margin-right: auto;
     margin-left: 25px;
+}
+#main-input{
+    height: 100%;
+    width: 100%;
+    background: none;
+    resize: none;
+    /* border: 1px groove black; */
+    border: none;
+}
+#input-control{
+    height: 40px;
+    display: flex;
+    flex-direction: row-reverse;
+}
+#send{
+    background: none;
+    /* border: 1px groove black; */
+    border: none;
 }
