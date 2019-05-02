@@ -1,0 +1,59 @@
+#background-layer {
+    height: 100%;
+    position: fixed;
+    width: 100%;
+    z-index: -1;
+    background: url("../media/city.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    font-family: Sailec-Bold, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
+}
+
+#toptext {
+    font-weight: 500;
+    padding-top: 30px;
+    font-size: 300%;
+    padding-bottom: 30px;
+    /* background-color: rgb(86, 159, 254); */
+    height: 60px;
+    width: 100%;
+    position: relative;
+    justify-content: center;
+    color: #031b4e;
+    text-align: center;
+}
+
+#login {
+    height: 400px;
+    width: 70%;
+    min-width: 550px;
+    max-width: 700px;
+}
+
+#username{
+    height: 30px;
+    border: none;
+    width: 80%;
+    text-align: center;
+    font-family: Sailec-Bold, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
+    max-width: 400px;
+}
+
+.window {
+    background-color: white;
+    opacity: 1;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    /* justify-content: center; */
+    display: flex;
+    flex-direction: column;
+    top: 100px;
+    vertical-align: middle;
+    position: relative;
+}
