@@ -121,6 +121,11 @@ body{
     margin-left: auto;
     margin-right: 15px;
     color: white;
+    /* opacity: 0;
+    animation-name: fadeIn;
+    animation-duration: 0.2s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards; */
 }
 .msgcard{
     color: white;
@@ -132,6 +137,19 @@ body{
     text-align: right;
     margin-right: auto;
     margin-left: 25px;
+    /* opacity: 0;
+    animation-name: fadeIn;
+    animation-duration: 0.2s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards; */
+}
+@keyframes fadeIn{
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
 }
 #main-input{
     height: 100%;
