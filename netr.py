@@ -36,7 +36,10 @@ def sendmsg(msg):
         d.send(json.dumps(c).encode())
     except:
         return -5886
-    din = json.loads(d.recv(2048).decode())
+    try:
+        din = json.loads(d.recv(2048).decode())
+    except:
+        return -5888
     if 'success' in din:
         if din['success'] == True:
             return True
@@ -103,7 +106,11 @@ class MsgFetch(threading.Thread):
                     raise Exception('Connection Reset')
                 if d=='heartbeat':
                     continue
-                jback=json.loads(d)
+                try:
+                   jback=json.loads(d)
+                except:
+                    print('JSON parse failed')
+                    continue
                 if not 'msgtype' in jback:
                     print('Msgtype not found')
                     continue

@@ -1,3 +1,9 @@
+import os
+import sys
+import threading
+import time
+import socket
+
 # All Exceptions
 class HostingException(BaseException):
     def __init__(self,r,errcode):
@@ -42,6 +48,7 @@ class WebHostAccepted(threading.Thread):
 
 
             #[TODO]
+
             
 
             sx.shutdown(socket.SHUT_RDWR)
@@ -50,6 +57,15 @@ class WebHostAccepted(threading.Thread):
             print(e)
             pass
 
+def main():
+    s=socket.socket()
+    s.bind(('localhost',8088))
+    s.listen(10)
+    hosting=WebHostWaiting(s)
+    hosting.start()
+    hosting.join()
+
+main()
 
 
 # import socket
