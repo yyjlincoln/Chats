@@ -5,6 +5,8 @@ import time
 import socket
 import json
 
+connectedClient={}
+
 # All Exceptions
 class HostingException(BaseException):
     def __init__(self,r,errcode):
@@ -55,16 +57,49 @@ class WebHostAccepted(threading.Thread):
                     sx.shutdown(socket.SHUT_RDWR)
                     sx.close()
                 return
-            
-
-            #[TODO]
-#{"timestamp": 1556844066.9155045, "operation": "msgsend", "token": "123456", "msg": "123", "nickname": "user", "id": "user"}
-            
+            try:
+                if d['operation']=='msgsend':
+                    #[TODO] Token Check
+                    for x in connectedClient:
+                        try:
+                            connectedClient[x].send(json.dumps({
+                                'msg':d['msg'],
+                                'id':d['id'],
+                                'nickname':d['nickname'],
+                                'timestamp':d['timestamp']
+                            }).encode())
+                        except:
+                            try:
+                                connectedClient[x].shutdown(socket.SHUT_RDWR)
+                                connectedClient[x].close()
+                            except:
+                                pass
+                            finally:
+                                del(connectedClient[x])
+                    sx.send(jsond('Message sent'))
+                    #{"timestamp": 1556844066.9155045, "operation": "msgsend", "token": "123456", "msg": "123", "nickname": "user", "id": "user"}
+            except:
+                pass
             sx.shutdown(socket.SHUT_RDWR)
             sx.close()
         except Exception as e:
             print(e)
             pass
+
+def jsond(message='success',success=True,code=0,**kw):
+    c={
+        'success':success,
+        'code':code,
+        'message':message
+    }
+    for x in kw:
+        c[x]=kw[x]
+    try:
+        r=json.dumps(c)
+    except:
+        return False
+    return r.encode()
+            #[TODO]
 
 def main():
     s=socket.socket()
