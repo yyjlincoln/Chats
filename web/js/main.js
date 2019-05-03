@@ -38,10 +38,19 @@ function drawmsg(msg, side) {
     } else {
         $("#chat-area").html($("#chat-area").html() + msgbubbleRight.replace("$msg$", msg))
     }
+    $("#chat-area").animate({ scrollTop: $("#chat-area")[0].scrollHeight }, 200);
 }
 
 function msgsent(result) {
     if (!result) {
         newmsg('[SYSTEM] Message Sent failed.', 1)
+    }
+}
+
+function keyd(k) {
+    if (k.keyCode == 13) {
+        sendmsg(inputform.input.value, msgsent)
+        inputform.input.value = ''
+        return false
     }
 }
