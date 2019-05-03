@@ -34,9 +34,11 @@ function drawmsg(msg, side) {
     var msgbubbleRight = '<div class="msgcardr"><div id="speech" class="speech-bubbler">$msg$</div></div>'
     var msgbubbleLeft = '<div class="msgcard"><div id="speech" class="speech-bubble">$msg$</div></div>'
     if (side == 0) {
-        $("#chat-area").html($("#chat-area").html() + msgbubbleLeft.replace("$msg$", msg))
+        // $("#chat-area").html($("#chat-area").html() + msgbubbleLeft.replace("$msg$", msg))
+        $("#chat-area").append(msgbubbleLeft.replace("$msg$", msg))
     } else {
-        $("#chat-area").html($("#chat-area").html() + msgbubbleRight.replace("$msg$", msg))
+        // $("#chat-area").html($("#chat-area").html() + msgbubbleRight.replace("$msg$", msg))
+        $("#chat-area").append(msgbubbleRight.replace("$msg$", msg))
     }
     $("#chat-area").animate({ scrollTop: $("#chat-area")[0].scrollHeight }, 200);
 }
