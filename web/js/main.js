@@ -1,5 +1,10 @@
 $(document).ready(()=>{
     $("#chat").fadeIn()
+    initok((okornot)=>{
+        if(!okornot){
+            top.location="index.html"
+        }
+    })
 })
 getusername((username)=>{
     $("#chat-left-top-text").text($("#chat-left-top-text").text().replace("$Username$",username))

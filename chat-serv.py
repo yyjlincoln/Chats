@@ -3,6 +3,7 @@ import sys
 import threading
 import time
 import socket
+import json
 
 # All Exceptions
 class HostingException(BaseException):
@@ -45,12 +46,20 @@ class WebHostAccepted(threading.Thread):
             sx=self.sx
             addr=self.addr
             d=sx.recv(204800000).decode()
-
-
-            #[TODO]
-
+            try:
+                d=json.loads(d)
+            except:
+                print('JSON Parse Failed')
+                if d=='heartbeat':
+                    sx.send(b'heartbeat')
+                    sx.shutdown(socket.SHUT_RDWR)
+                    sx.close()
+                return
             
 
+            #[TODO]
+#{"timestamp": 1556844066.9155045, "operation": "msgsend", "token": "123456", "msg": "123", "nickname": "user", "id": "user"}
+            
             sx.shutdown(socket.SHUT_RDWR)
             sx.close()
         except Exception as e:
