@@ -98,6 +98,12 @@ class MsgFetch(threading.Thread):
 
     def run(self):
         global s
+        s.send(json.dumps({
+            'operation':'msgregister',
+            'msg':'<msgregister>,',
+            'token':token,
+            'id':getusername()
+        }).encode())
         while True:
             try:
                 print('MsgAwaits')
@@ -115,11 +121,11 @@ class MsgFetch(threading.Thread):
                     print('Msgtype not found')
                     continue
                 if jback['msgtype']=='msg':
-                    if 'msg' not in jback or 'id' not in jback or 'nickname' not in jback:
+                    if 'msg' not in jback or 'id' not in jback or 'nickname' not in jback or 'timestamp' not in jback:
                         print('msg err')
                         continue
                     else:
-                        msgrecv(jback['nickname'],jback['id'],jback['msg'])
+                        msgrecv(jback['nickname'],jback['id'],jback['msg'],jback['timestamp'])
             except:
                 netwreset()
                 return

@@ -47,39 +47,47 @@ class WebHostAccepted(threading.Thread):
         try:
             sx=self.sx
             addr=self.addr
-            d=sx.recv(204800000).decode()
-            try:
-                d=json.loads(d)
-            except:
-                print('JSON Parse Failed')
-                if d=='heartbeat':
-                    sx.send(b'heartbeat')
-                    sx.shutdown(socket.SHUT_RDWR)
-                    sx.close()
-                return
-            try:
-                if d['operation']=='msgsend':
-                    #[TODO] Token Check
-                    for x in connectedClient:
-                        try:
-                            connectedClient[x].send(json.dumps({
-                                'msg':d['msg'],
-                                'id':d['id'],
-                                'nickname':d['nickname'],
-                                'timestamp':d['timestamp']
-                            }).encode())
-                        except:
+            while True:
+                d=sx.recv(204800000).decode()
+                try:
+                    d=json.loads(d)
+                except:
+                    if d=='heartbeat':
+                        sx.send(b'heartbeat')
+                        continue
+                    print('JSON Parse Failed')
+                    break
+
+                try:
+                    if d['operation']=='msgregister':
+                        connectedClient[d['id']]=sx
+                        continue
+
+                    if d['operation']=='msgsend':
+                        #[TODO] Token Check
+                        for x in connectedClient:
                             try:
-                                connectedClient[x].shutdown(socket.SHUT_RDWR)
-                                connectedClient[x].close()
+                                connectedClient[x].send(json.dumps({
+                                    'msg':d['msg'],
+                                    'id':d['id'],
+                                    'msgtype':'msg',
+                                    'nickname':d['nickname'],
+                                    'timestamp':d['timestamp']
+                                }).encode())
                             except:
-                                pass
-                            finally:
-                                del(connectedClient[x])
-                    sx.send(jsond('Message sent'))
-                    #{"timestamp": 1556844066.9155045, "operation": "msgsend", "token": "123456", "msg": "123", "nickname": "user", "id": "user"}
-            except:
-                pass
+                                try:
+                                    connectedClient[x].shutdown(socket.SHUT_RDWR)
+                                    connectedClient[x].close()
+                                except:
+                                    pass
+                                finally:
+                                    del(connectedClient[x])
+
+                        sx.send(jsond('Message sent'))
+                        break
+                        #{"timestamp": 1556844066.9155045, "operation": "msgsend", "token": "123456", "msg": "123", "nickname": "user", "id": "user"}
+                except:
+                    break
             sx.shutdown(socket.SHUT_RDWR)
             sx.close()
         except Exception as e:

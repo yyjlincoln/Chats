@@ -67,9 +67,9 @@ class WebHostAccepted(threading.Thread):
             print(e)
             pass
 
-def msgrecv(nickname,id,message):
+def msgrecv(nickname,id,message,timestamp):
     global msgUnread
-    msgUnread.append({'id':id,'nickname':nickname,'message':message})
+    msgUnread.append({'id':id,'nickname':nickname,'message':message,'timestamp':timestamp})
 
 def main():
     # Host on Localhost
@@ -155,7 +155,7 @@ def api(d):
             c=[]
             if len(msgUnread)!=0:
                 for x in range(len(msgUnread)):
-                    c.append(msgUnread[0]['nickname']+' says :'+msgUnread[0]['message'])
+                    c.append(msgUnread[0])
                     msgUnread.pop(0)
                 return jsond(c,True,0)
             return jsond(c,False,0)
