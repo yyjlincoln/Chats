@@ -25,7 +25,7 @@ getnickname((username) => {
 
 function newmsg(msg) {
     if (msg == -1) {
-        $("#chat-area").append("<div><b>Session Expired, please <a href='/'>log in again</a>!</b></div>")
+        $("#chat-area").append("<div class='.system'><b>Session Expired, please <a href='/'>log in again</a>!</b></div>")
         document.ok = false
     } else if (msg != 0) {
         // console.log('New Msg', msg, side)
@@ -36,7 +36,7 @@ function newmsg(msg) {
         }
     }
     // } else {
-    //     console.log(msg)
+    //     // console.log(msg)
     //     if (msg == -1) {
     //         $("#chat-area").append("<div><b>Session Expired, please <a href='/'>log in again</a>!</b></div>")
     //     }
@@ -44,7 +44,7 @@ function newmsg(msg) {
 }
 
 function drawmsg(msg, side) {
-    console.log(msg, side)
+    // console.log(msg, side)
     // $("")
     var msgbubbleRight = '<div class="msgcardr"><div id="speech" class="speech-bubbler">$msg$</div></div>'
     var msgbubbleLeft = '<div class="msgcard"><div id="speech" class="speech-bubble">$msg$</div></div>'
@@ -61,13 +61,13 @@ function drawmsg(msg, side) {
 }
 
 function msgsent(result) {
+    // console.log(result)
     if (result < -1) {
         // newmsg('[SYSTEM] Message Sent failed.', 1)
-        $("#chat-area").append("<div><b>Message send failed</b></div>")
+        $("#chat-area").append("<div class='.system'><b>Message send failed</b></div>")
     }
     if (result == -1) {
-        $("#chat-area").append("<div><b>Message send failed</b></div>")
-        $("#chat-area").append("<div><b>Session Expired, please <a href='/'>log in again</a>!</b></div>")
+        $("#chat-area").append("<div class='.system'><b>Session Expired, please <a href='/'>log in again</a>!</b></div>")
     }
 }
 

@@ -5,14 +5,14 @@ var initStat = false
 
 function init(user, pass, callback) {
     $.get(localServURL + "/$api/init/" + remoteServAddr + "/" + remoteServPort + "/" + user + "/" + pass, (data) => {
-        console.log(data)
+        // console.log(data)
         try {
             djson = JSON.parse(data)
             if (djson.success == true) {
-                console.log('Login Success')
+                // console.log('Login Success')
                 callback(true)
             } else {
-                console.log('Login Failed, code ' + djson.code)
+                // console.log('Login Failed, code ' + djson.code)
                 callback(false)
             }
         } catch (error) {
@@ -26,7 +26,7 @@ function sendmsg(msg,callback){
         msg: msg
     }
     $.get(localServURL+"/$api/send/"+btoa(JSON.stringify(msgobj)),(data)=>{
-        console.log(data)
+        // console.log(data)
         jd=JSON.parse(data)
         callback(jd.code)
     })
@@ -36,7 +36,7 @@ function ajaxaskmsg(callback){
     $.get(localServURL+"/$api/getmsg",(data)=>{
         d=JSON.parse(data)
         if(d.success){
-            console.log(d,d.message)
+            // console.log(d,d.message)
             for(var e=0;e<d.message.length;e++){
                 callback(d.message[e])
             }
