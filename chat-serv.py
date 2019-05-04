@@ -51,7 +51,7 @@ class WebHostAccepted(threading.Thread):
             sx=self.sx
             addr=self.addr
             while True:
-                d=sx.recv(204800000).decode()
+                d=sx.recv(2048000).decode()
                 print(d)
                 try:
                     d=json.loads(d)
