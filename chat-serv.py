@@ -79,7 +79,6 @@ class WebHostAccepted(threading.Thread):
                         #[TODO] Token Check
                             for x in connectedClient:
                                 try:
-                                    chathistory.insert(d['id'],d['nickname'],d['msg'])
                                     connectedClient[x].send(json.dumps({
                                         'msg':d['msg'],
                                         'id':d['id'],
@@ -95,7 +94,8 @@ class WebHostAccepted(threading.Thread):
                                         pass
                                     finally:
                                         del(connectedClient[x])
-
+                        
+                            chathistory.insert(d['id'],d['nickname'],d['msg'])
                             sx.send(jsond('Message sent'))
                             break
                         else:
