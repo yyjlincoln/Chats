@@ -124,7 +124,7 @@ class MsgFetch(threading.Thread):
             try:
                 print('MsgAwaits')
                 d=s.recv(204800).decode()
-                if d==b'':
+                if d=='':
                     raise Exception('Connection Reset')
                 if d=='heartbeat':
                     continue
