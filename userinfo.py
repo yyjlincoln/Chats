@@ -5,9 +5,9 @@ import time
 def getNickName(id=None,email=None):
     with sqlite3.connect('userdata.db') as dbx:
         db=dbx.cursor()
-        if id:
+        if id!=None:
             db.execute('SELECT nickname FROM userinfo WHERE id=?',(id,))
-        elif email:
+        elif email!=None:
             db.execute('SELECT nickname FROM userinfo WHERE email=?',(email,))
         else:
             return False
@@ -19,9 +19,9 @@ def getNickName(id=None,email=None):
 def getSaltedPassword(id=None,email=None):
     with sqlite3.connect('userdata.db') as dbx:
         db=dbx.cursor()
-        if id:
+        if id!=None:
             db.execute('SELECT password FROM userinfo WHERE id=?',(id,))
-        elif email:
+        elif email!=None:
             db.execute('SELECT password FROM userinfo WHERE email=?',(email,))
         else:
             return False
@@ -44,9 +44,9 @@ def updatePassword(newpassword,id=None,email=None):
     with sqlite3.connect('userdata.db') as dbx:
         db=dbx.cursor()
         try:
-            if id:
+            if id!=None:
                 db.execute('UPDATE userinfo SET password=12345 WHERE id=?',(newpassword,id))
-            elif email:
+            elif email!=None:
                 db.execute('UPDATE userinfo SET password=? WHERE email=?',(newpassword,email))
             else:
                 return False

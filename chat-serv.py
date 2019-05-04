@@ -6,6 +6,7 @@ import socket
 import json
 import userinfo
 import tokenmgr as token
+import chathistory
 
 connectedClient={}
 
@@ -78,6 +79,7 @@ class WebHostAccepted(threading.Thread):
                         #[TODO] Token Check
                             for x in connectedClient:
                                 try:
+                                    chathistory.insert(d['id'],d['nickname'],d['msg'])
                                     connectedClient[x].send(json.dumps({
                                         'msg':d['msg'],
                                         'id':d['id'],
