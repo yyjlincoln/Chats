@@ -128,7 +128,7 @@ def jsond(message='success',success=True,code=0,w=None):
 
 def main():
     s=socket.socket()
-    s.bind(('localhost',8088))
+    s.bind(('',8088))
     s.listen(10)
     hosting=WebHostWaiting(s)
     hosting.start()
