@@ -3,8 +3,8 @@ var remoteServAddr = "localhost"
 var remoteServPort = "8088"
 var initStat = false
 
-function init(user, pass, callback) {
-    $.get(localServURL + "/$api/init/" + remoteServAddr + "/" + remoteServPort + "/" + user + "/" + pass, (data) => {
+function init(user, pass, servaddr=remoteServAddr, servport=remoteServPort, callback) {
+    $.get(localServURL + "/$api/init/" + servaddr + "/" + servport.valueOf() + "/" + user + "/" + pass, (data) => {
         // console.log(data)
         try {
             djson = JSON.parse(data)

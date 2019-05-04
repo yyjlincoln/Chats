@@ -20,6 +20,12 @@
         <form id="loginform" onsubmit="return login_operation();">
             <input id="username" name="username" class="xinput" type="text" placeholder="Email">
             <input id="password" name="password" type="password" class="xinput" placeholder="Password">
+            <div style="display: flex;flex-direction: row;justify-content: center;width: 70%;max-width: 400px;margin-left: auto;margin-right: auto;">
+                <input id="remoteaddr" name="remoteaddr" type="text" class="xinput" placeholder="Remote Server Address"
+                    value="yyjlincoln.xyz">
+                <input id="remoteport" name="remoteport" type="number" class="xinput" placeholder="Remote Server Port"
+                    value="8088">
+            </div>
             <button id="submit" type="submit" class="xinput">Submit</button>
         </form>
         <div id="dtext3" class="toptext">... or you can register by clicking <a href="#reg"

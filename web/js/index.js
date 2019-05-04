@@ -31,7 +31,7 @@ function login_operation() {
 
     }, 300)
     // Loading
-    init(loginform.username.value, loginform.password.value, (tf) => {
+    init(loginform.username.value, loginform.password.value, loginform.remoteaddr.value, loginform.remoteport.value, (tf) => {
         if (tf) {
             processed = true
             $('#loading').html('<b>Login Successfully</b>')

@@ -3,7 +3,7 @@ $(document).ready(() => {
     $("#chat").fadeIn()
     initok((okornot) => {
         if (!okornot) {
-            top.location = "index.html"
+            top.location = "/"
         }
     })
     setInterval(() => {
