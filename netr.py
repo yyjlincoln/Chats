@@ -18,7 +18,7 @@ msgrecv=print
 def sendmsg(msg):
     global token
     if not initok():
-        return -5888
+        return -1
     c = {
         'timestamp': time.time(),
         'operation': 'msgsend',

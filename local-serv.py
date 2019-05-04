@@ -158,6 +158,8 @@ def api(d):
                 return jsond(-1,False,-5998)
         if d=='getmsg':
             c=[]
+            if not netr.initok():
+                return jsond('<Session Expired>',False,-1)
             if len(msgUnread)!=0:
                 for x in range(len(msgUnread)):
                     c.append(msgUnread[0])

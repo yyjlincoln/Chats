@@ -1,4 +1,5 @@
 $(document).ready(() => {
+    document.ok = true
     $("#chat").fadeIn()
     initok((okornot) => {
         if (!okornot) {
@@ -6,13 +7,15 @@ $(document).ready(() => {
         }
     })
     setInterval(() => {
-        ajaxaskmsg(newmsg)
+        if (document.ok) {
+            ajaxaskmsg(newmsg)
+        }
     }, 500);
     getnickname((d) => {
         document.nickname = d
     })
-    getid((d)=>{
-        document.id=d
+    getid((d) => {
+        document.id = d
     })
 })
 
@@ -21,7 +24,10 @@ getnickname((username) => {
 })
 
 function newmsg(msg) {
-    if (msg != -1) {
+    if (msg == -1) {
+        $("#chat-area").append("<div><b>Session Expired, please <a href='/'>log in again</a>!</b></div>")
+        document.ok = false
+    } else if (msg != 0) {
         // console.log('New Msg', msg, side)
         if (msg.id == document.id) {
             drawmsg(msg.message, 1)
@@ -29,6 +35,12 @@ function newmsg(msg) {
             drawmsg(msg.nickname + ': ' + msg.message, 0)
         }
     }
+    // } else {
+    //     console.log(msg)
+    //     if (msg == -1) {
+    //         $("#chat-area").append("<div><b>Session Expired, please <a href='/'>log in again</a>!</b></div>")
+    //     }
+    // }
 }
 
 function drawmsg(msg, side) {
@@ -43,12 +55,19 @@ function drawmsg(msg, side) {
         // $("#chat-area").html($("#chat-area").html() + msgbubbleRight.replace("$msg$", msg))
         $("#chat-area").append(msgbubbleRight.replace("$msg$", msg))
     }
-    $("#chat-area").animate({ scrollTop: $("#chat-area")[0].scrollHeight }, 200);
+    $("#chat-area").animate({
+        scrollTop: $("#chat-area")[0].scrollHeight
+    }, 200);
 }
 
 function msgsent(result) {
-    if (!result) {
-        newmsg('[SYSTEM] Message Sent failed.', 1)
+    if (result < -1) {
+        // newmsg('[SYSTEM] Message Sent failed.', 1)
+        $("#chat-area").append("<div><b>Message send failed</b></div>")
+    }
+    if (result == -1) {
+        $("#chat-area").append("<div><b>Message send failed</b></div>")
+        $("#chat-area").append("<div><b>Session Expired, please <a href='/'>log in again</a>!</b></div>")
     }
 }
 

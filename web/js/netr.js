@@ -28,7 +28,7 @@ function sendmsg(msg,callback){
     $.get(localServURL+"/$api/send/"+btoa(JSON.stringify(msgobj)),(data)=>{
         console.log(data)
         jd=JSON.parse(data)
-        callback(jd.success)
+        callback(jd.code)
     })
 }
 
@@ -41,7 +41,7 @@ function ajaxaskmsg(callback){
                 callback(d.message[e])
             }
         } else {
-            callback(-1)
+            callback(d.code)
         }
     })
 }
