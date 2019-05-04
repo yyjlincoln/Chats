@@ -5,6 +5,7 @@ import time
 import socket
 import json
 import userinfo
+import tokenmgr as token
 
 connectedClient={}
 
@@ -50,6 +51,7 @@ class WebHostAccepted(threading.Thread):
             addr=self.addr
             while True:
                 d=sx.recv(204800000).decode()
+                print(d)
                 try:
                     d=json.loads(d)
                 except:
@@ -61,31 +63,42 @@ class WebHostAccepted(threading.Thread):
 
                 try:
                     if d['operation']=='msgregister':
-                        connectedClient[d['id']]=sx
-                        continue
+                        if userinfo.getSaltedPassword(email=d['email'])==d['password']:
+                            i=userinfo.getID(d['email'])
+                            t=token.newToken(i)
+                            sx.send(jsond('Successfully connected',True,0,{'token':t,'id':i,'nickname':userinfo.getNickName(id=i)}))
+                            connectedClient[i]=sx
+                            continue
+                        else:
+                            sx.send(jsond('Incorrect Login Details',False,-1))
+                            break
 
                     if d['operation']=='msgsend':
+                        if token.validateToken(d['id'],d['token']):
                         #[TODO] Token Check
-                        for x in connectedClient:
-                            try:
-                                connectedClient[x].send(json.dumps({
-                                    'msg':d['msg'],
-                                    'id':d['id'],
-                                    'msgtype':'msg',
-                                    'nickname':d['nickname'],
-                                    'timestamp':d['timestamp']
-                                }).encode())
-                            except:
+                            for x in connectedClient:
                                 try:
-                                    connectedClient[x].shutdown(socket.SHUT_RDWR)
-                                    connectedClient[x].close()
+                                    connectedClient[x].send(json.dumps({
+                                        'msg':d['msg'],
+                                        'id':d['id'],
+                                        'msgtype':'msg',
+                                        'nickname':d['nickname'],
+                                        'timestamp':d['timestamp']
+                                    }).encode())
                                 except:
-                                    pass
-                                finally:
-                                    del(connectedClient[x])
+                                    try:
+                                        connectedClient[x].shutdown(socket.SHUT_RDWR)
+                                        connectedClient[x].close()
+                                    except:
+                                        pass
+                                    finally:
+                                        del(connectedClient[x])
 
-                        sx.send(jsond('Message sent'))
-                        break
+                            sx.send(jsond('Message sent'))
+                            break
+                        else:
+                            sx.send(jsond('Invalid Token',False,-5990))
+                            break
                         #{"timestamp": 1556844066.9155045, "operation": "msgsend", "token": "123456", "msg": "123", "nickname": "user", "id": "user"}
                 except:
                     break
@@ -95,14 +108,15 @@ class WebHostAccepted(threading.Thread):
             print(e)
             pass
 
-def jsond(message='success',success=True,code=0,**kw):
+def jsond(message='success',success=True,code=0,w=None):
     c={
         'success':success,
         'code':code,
         'message':message
     }
-    for x in kw:
-        c[x]=kw[x]
+    if w:
+        for x in w:
+            c[x]=w[x]
     try:
         r=json.dumps(c)
     except:

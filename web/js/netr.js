@@ -46,13 +46,24 @@ function ajaxaskmsg(callback){
     })
 }
 
-function getusername(callback){
+function getnickname(callback){
     $.get(localServURL+"/$api/getusername",(data)=>{
         d=JSON.parse(data)
         if(d.success){
             callback(d.message)
         } else {
             callback("<You are not logged in>")
+        }
+    })
+}
+
+function getid(callback){
+    $.get(localServURL+"/$api/getid",(data)=>{
+        d=JSON.parse(data)
+        if(d.success){
+            callback(d.message)
+        } else {
+            callback(-1)
         }
     })
 }

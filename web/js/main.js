@@ -8,12 +8,15 @@ $(document).ready(() => {
     setInterval(() => {
         ajaxaskmsg(newmsg)
     }, 500);
-    getusername((d) => {
-        document.id = d
+    getnickname((d) => {
+        document.nickname = d
+    })
+    getid((d)=>{
+        document.id=d
     })
 })
 
-getusername((username) => {
+getnickname((username) => {
     $("#chat-left-top-text").text($("#chat-left-top-text").text().replace("$Username$", username))
 })
 

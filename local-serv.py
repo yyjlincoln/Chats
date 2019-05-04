@@ -148,9 +148,14 @@ def api(d):
             return jsond('<Status>',netr.initok(),code=0)
         if d=='getusername':
             try:
-                return jsond(netr.getusername(),netr.initok(),code=0)
+                return jsond(netr.nickname,netr.initok(),code=0)
             except:
                 return jsond('<Uninitialized>',False,-5998)
+        if d=='getid':
+            try:
+                return jsond(netr.ID,netr.initok(),code=0)
+            except:
+                return jsond(-1,False,-5998)
         if d=='getmsg':
             c=[]
             if len(msgUnread)!=0:

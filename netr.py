@@ -24,8 +24,8 @@ def sendmsg(msg):
         'operation': 'msgsend',
         'token': token,
         'msg': msg,
-        'nickname': getusername(),
-        'id': getusername(),
+        'nickname': nickname,
+        'id': ID,
     }
     d=socket.socket()
     try:
@@ -52,7 +52,7 @@ def initok():
     return (connectstat&authstat)
 
 def init(serv=('localhost', 8088), auth=('user', 'pass'),msghand=None):
-    global servaddr, s, connectstat, xauth, msgrecv
+    global servaddr, s, connectstat, authstat, xauth, msgrecv, ID, token, nickname
     s=socket.socket()
     if msghand:
         msgrecv=msghand
@@ -63,14 +63,35 @@ def init(serv=('localhost', 8088), auth=('user', 'pass'),msghand=None):
     except:
         s = socket.socket()
         return -5887
-    print(authorize(auth))
-    if not authorize(auth):
-        s = socket.socket()
-        return -1
-    connectstat = True
+    # print(authorize(auth))
+    # if not authorize(auth):
+    #     s = socket.socket()
+    #     return -1
+    try:
+        s.send(json.dumps({
+            'operation':'msgregister',
+            'msg':'<msgregister>,',
+            'email':auth[0],
+            'password':auth[1]
+        }).encode())
+        d=s.recv(2048).decode()
+        print(d)
+        d=json.loads(d)
+        if d['success']==True:
+            token=d['token']
+            ID=d['id']
+            nickname=d['nickname']
+            authstat=True
+        else:
+            s=socket.socket()
+            return -1
+    except:
+        s=socket.socket()
+        return -5999
     xauth = auth
-    msgf = MsgFetch()
+    msgf = MsgFetch(auth)
     msgf.start()
+    connectstat = True
     return 0
 
 
@@ -91,19 +112,14 @@ def authorize(auth):
 
 
 class MsgFetch(threading.Thread):
-    def __init__(self):
+    def __init__(self,auth):
         threading.Thread.__init__(self)
         self.setDaemon(True)
         self.setName('Msg Fetch')
+        self.auth=auth
 
     def run(self):
         global s
-        s.send(json.dumps({
-            'operation':'msgregister',
-            'msg':'<msgregister>,',
-            'token':token,
-            'id':getusername()
-        }).encode())
         while True:
             try:
                 print('MsgAwaits')
@@ -129,8 +145,8 @@ class MsgFetch(threading.Thread):
             except:
                 netwreset()
                 return
-def getusername():
-    return xauth[0]
+# def getusername():
+#     return xauth[0]
 
 def netwreset():
     global s, authstat, connectstat, token, sign
