@@ -33,6 +33,10 @@ body {
     text-align: center;
 }
 
+.nop{
+    margin: 0;
+    padding: 0;
+}
 
 #login {
     height: 450px;
