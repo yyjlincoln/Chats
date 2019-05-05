@@ -53,7 +53,7 @@ function drawmsg(msg, side) {
         mprc=msg.split('\n')
         var msgp=''
         for(var x=0;x<mprc.length;x++){
-            msgp=msgp+"<p>"+mprc[x]+"</p>"
+            msgp=msgp+"<p class='nop'>"+mprc[x]+"</p>"
         }
         $("#chat-area").append(msgbubbleLeft.replace("$msg$", msgp))
     } else {
